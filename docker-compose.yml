@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  meilisearch:
+    container_name: meilisearch
+    ports:
+        - "7700:7700"
+    volumes:
+      - ./db:/meili_data
+    image: getmeili/meilisearch:${MEILI_VERSION}
+    environment:
+        MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+        MEILI_ENV: ${MEILI_ENV}
