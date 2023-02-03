@@ -1,5 +1,5 @@
 # POC MeiliSearch
-Este repositório tem como objetivo subir container do MeiliSearch e avaliar comportamento a diversos tamanho de base de dados.
+Este repositório tem como objetivo subir container do MeiliSearch e avaliar comportamento com diversos tamanho de base de dados.
 
 ## Data Source
 Na pasta `data/` encontram-se os seguintes dados em formato json para importação como exemplo:
@@ -23,10 +23,11 @@ localhost:7700
 
 ## Importação de dados
 
-Para importar os arquivos json para base no MS, execute na raiz do projeto:
+Para importar os arquivos json para base no MeiliSearch, execute na raiz do projeto passando como argumento o index do arquivo (que será o mesmo da base):
 
 ```sh
-go run script/import.go
+go run script/import.go movies
+go run script/import.go users
 ```
 
 [Mock Turtle]: <https://mockturtle.net>
