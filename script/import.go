@@ -5,13 +5,16 @@ import (
 	"io"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/meilisearch/meilisearch-go"
 )
 
 func main() {
+	loadEnv()
+
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:   "http://localhost:7700",
-		APIKey: "",
+		Host:   os.Getenv("MEILI_HOST"),
+		APIKey: os.Getenv("MEILI_MASTER_KEY"),
 	})
 
 	jsonFile, _ := os.Open("./data/movies.json")
@@ -25,5 +28,13 @@ func main() {
 	_, err := client.Index("movies").AddDocuments(data)
 	if err != nil {
 		panic(err)
+	}
+}
+
+func loadEnv() {
+	errEnv := godotenv.Load(".env")
+
+	if errEnv != nil {
+		panic("Fail loading .env file")
 	}
 }
