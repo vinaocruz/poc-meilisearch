@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -15,23 +14,18 @@ func main() {
 
 	index := os.Args[1]
 
-	jsonFile, errorJson := os.Open(fmt.Sprintf("./data/%s.json", index))
+	jsonFile, error := os.Open(fmt.Sprintf("./data/%s.ndjson", index))
 	defer jsonFile.Close()
-	if errorJson != nil {
-		panic(errorJson)
+	if error != nil {
+		panic(error)
 	}
-
-	byteValue, _ := io.ReadAll(jsonFile)
-
-	var data []map[string]interface{}
-	json.Unmarshal(byteValue, &data)
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
 		Host:   os.Getenv("MEILI_HOST"),
 		APIKey: os.Getenv("MEILI_MASTER_KEY"),
 	})
 
-	_, err := client.Index(index).AddDocuments(data)
+	_, err := client.Index(index).AddDocumentsNdjsonFromReader(io.Reader(jsonFile))
 	if err != nil {
 		panic(err)
 	}
